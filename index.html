@@ -1,67 +1,91 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Інженерний калькулятор</title>
-<style>
-:root{--bg:#0f172a;--card:#172033;--line:#2b3a55;--text:#e5eefc;--muted:#9fb1cc;--accent:#38bdf8;--accent2:#facc15;--bad:#fb7185}
-*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#111827,#0b1120);color:var(--text);min-height:100vh;padding:24px}.wrap{max-width:1150px;margin:auto}.head{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:24px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.25)}h1{margin:0;font-size:34px}.sub{color:var(--muted);margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.18)}input,select{width:100%;border:1px solid var(--line);background:#0b1220;color:var(--text);border-radius:16px;padding:14px;font-size:18px;outline:none}input.main{font-size:28px}.screen{background:#070d19;border:1px solid var(--line);border-radius:22px;padding:16px}.result{min-height:64px;margin-top:12px;border-radius:18px;background:rgba(255,255,255,.05);padding:16px;font-size:30px;font-weight:700;color:#a5f3fc;word-break:break-all}.err{color:var(--bad);font-size:18px}.buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}button{border:0;border-radius:16px;padding:15px;color:var(--text);background:rgba(255,255,255,.10);font-size:18px;cursor:pointer}button:hover{background:rgba(255,255,255,.18)}.equal{grid-column:span 3;background:var(--accent);color:#06121f;font-weight:700}.clear{background:#ef4444}.back{grid-column:span 2;background:#334155}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.label{font-size:14px;color:var(--muted);margin:12px 0 6px}.convres{margin-top:16px;border-radius:22px;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.22);padding:18px}.convnum{font-size:30px;font-weight:800;color:#a5f3fc}.formula{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#0b1220;border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:10px;cursor:pointer}.formula:hover{background:#111c31}.formula small{display:block;color:var(--muted);margin-top:4px}code{background:rgba(255,255,255,.1);padding:8px;border-radius:10px;color:#67e8f9}@media(max-width:850px){.grid{grid-template-columns:1fr}.buttons{grid-template-columns:repeat(4,1fr)}h1{font-size:28px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Інженерний калькулятор</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#172033;--btn:#374151;--text:#e5e7eb;--muted:#9ca3af;--blue:#38bdf8;--err:#fb7185;--line:#334155}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#07111f,#111827,#07111f);color:var(--text)}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px}
+    header,.card{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+    header{margin-bottom:22px}
+    h1{margin:0 0 8px;font-size:34px} p{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
+    .display{background:#07111f;border:1px solid #28415f;border-radius:24px;padding:16px;margin-bottom:16px}
+    input,select{width:100%;background:#07111f;border:1px solid #28415f;border-radius:18px;padding:14px;color:var(--text);font-size:18px;outline:none}
+    #expr{font-size:28px}.result{margin-top:12px;background:rgba(255,255,255,.06);border-radius:18px;min-height:58px;padding:16px;font-size:26px;font-weight:bold;color:#a5f3fc;word-break:break-all}
+    .error{color:var(--err);font-size:18px;font-weight:bold}.buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    button{border:0;border-radius:16px;background:var(--btn);color:white;font-size:19px;font-weight:700;padding:17px;cursor:pointer}
+    button:hover{filter:brightness(1.15)}.blue{background:var(--blue);color:#06111f}.wide2{grid-column:span 2}.wide3{grid-column:span 3}
+    label{display:block;margin:12px 0 7px;color:#bfdbfe}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .convres{margin-top:16px;background:rgba(56,189,248,.16);border:1px solid rgba(56,189,248,.35);border-radius:22px;padding:18px}.convres strong{display:block;margin-top:8px;font-size:30px;color:#a5f3fc}
+    .formula{display:flex;justify-content:space-between;gap:12px;background:#07111f;border:1px solid #28415f;border-radius:18px;padding:14px;margin:10px 0;cursor:pointer}
+    code{background:rgba(255,255,255,.08);border-radius:10px;padding:8px;color:#a5f3fc}.hint{font-size:14px;margin:5px 0 0;color:#93a4b8}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.buttons{grid-template-columns:repeat(4,1fr)}}
+  </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="head"><h1>Інженерний калькулятор</h1><div class="sub">Наукові обчислення, тригонометрія, степені, корені та конвертер одиниць. Працює без інтернету.</div></div>
-  <div class="grid">
-    <div class="card">
-      <h2>Обчислення</h2>
-      <div class="screen">
-        <input id="expr" class="main" placeholder="Наприклад: 12*sin(π/2)+√(144)">
-        <div id="out" class="result">Результат з’явиться тут</div>
-      </div>
-      <div class="buttons" id="btns"></div>
-      <p class="sub">Тригонометрія працює в радіанах. Для градусів: <b>sin(90*π/180)</b></p>
-    </div>
-    <div>
-      <div class="card">
-        <h2>Конвертер одиниць</h2>
-        <div class="label">Категорія</div><select id="cat"></select>
-        <div class="label">Значення</div><input id="val" value="1">
-        <div class="two">
-          <div><div class="label">З</div><select id="from"></select></div>
-          <div><div class="label">У</div><select id="to"></select></div>
-        </div>
-        <div class="convres"><div class="sub">Результат</div><div id="conv" class="convnum">—</div></div>
-      </div>
-      <div class="card" style="margin-top:20px">
-        <h2>Формули</h2>
-        <div id="formulas"></div>
-      </div>
-    </div>
-  </div>
+<header><h1>Інженерний калькулятор</h1><p>Обчислення, тригонометрія, корені, степені та конвертер одиниць.</p></header>
+<div class="grid">
+<section class="card">
+<h2>Обчислення</h2>
+<div class="display">
+<input id="expr" placeholder="Наприклад: 12*sin(π/2)+√(144)" autocomplete="off">
+<div id="out" class="result">Результат з’явиться тут</div>
+</div>
+<div class="buttons">
+<button onclick="add('7')">7</button><button onclick="add('8')">8</button><button onclick="add('9')">9</button><button onclick="add('/')">/</button><button onclick="add('sin(')">sin(</button>
+<button onclick="add('4')">4</button><button onclick="add('5')">5</button><button onclick="add('6')">6</button><button onclick="add('*')">*</button><button onclick="add('cos(')">cos(</button>
+<button onclick="add('1')">1</button><button onclick="add('2')">2</button><button onclick="add('3')">3</button><button onclick="add('-')">-</button><button onclick="add('tan(')">tan(</button>
+<button onclick="add('0')">0</button><button onclick="add('.')">.</button><button onclick="add('π')">π</button><button onclick="add('+')">+</button><button onclick="add('√(')">√(</button>
+<button onclick="add('(')">(</button><button onclick="add(')')">)</button><button onclick="add('^')">^</button><button onclick="add('ln(')">ln(</button><button onclick="add('log(')">log(</button>
+<button class="wide2" onclick="delChar()">Видалити</button><button class="wide3 blue" onclick="calc()">Обчислити</button>
+</div>
+<p>Для градусів: <b>sin(90*π/180)</b></p>
+</section>
+<aside>
+<section class="card">
+<h2>Конвертер одиниць</h2>
+<label>Категорія</label><select id="cat" onchange="changeCat()"></select>
+<label>Значення</label><input id="val" value="1" oninput="convert()">
+<div class="two"><div><label>З</label><select id="from" onchange="convert()"></select></div><div><label>У</label><select id="to" onchange="convert()"></select></div></div>
+<div class="convres">Результат<strong id="conv">—</strong></div>
+</section>
+<section class="card" style="margin-top:22px">
+<h2>Формули</h2>
+<div class="formula" onclick="setExpr('12*5')"><div><b>Закон Ома</b><p class="hint">U = I × R. Для прикладу вставляє 12*5</p></div><code>U = I × R</code></div>
+<div class="formula" onclick="setExpr('220*2')"><div><b>Потужність</b><p class="hint">P = U × I. Для прикладу вставляє 220*2</p></div><code>P = U × I</code></div>
+<div class="formula" onclick="setExpr('10*4^2/2')"><div><b>Кінетична енергія</b><p class="hint">m × v² / 2</p></div><code>E = m × v² / 2</code></div>
+<div class="formula" onclick="setExpr('π*5^2')"><div><b>Площа круга</b><p class="hint">π × r²</p></div><code>S = π × r²</code></div>
+</section>
+</aside>
+</div>
 </div>
 <script>
-const buttons=['7','8','9','/','sin(','4','5','6','*','cos(','1','2','3','-','tan(','0','.','π','+','√(','(',')','^','ln(','log('];
-const units={
- 'Довжина':{mm:.001,cm:.01,m:1,km:1000,inch:.0254,ft:.3048,yd:.9144,mile:1609.344},
- 'Маса':{mg:.000001,g:.001,kg:1,t:1000,lb:.45359237,oz:.0283495231},
- 'Тиск':{Pa:1,kPa:1000,MPa:1000000,bar:100000,atm:101325,psi:6894.75729},
- 'Енергія':{J:1,kJ:1000,MJ:1000000,Wh:3600,kWh:3600000,cal:4.184,kcal:4184},
- 'Потужність':{W:1,kW:1000,MW:1000000,hp:745.699872}
-};
-const formulas=[['Закон Ома','U = I × R','Напруга = струм × опір'],['Потужність','P = U × I','Електрична потужність'],['Кінетична енергія','E = m × v² / 2','Енергія руху'],['Густина','ρ = m / V','Маса на одиницю об’єму'],['Тиск','p = F / S','Сила на площу'],['Площа круга','S = π × r²','Через радіус']];
 const expr=document.getElementById('expr'), out=document.getElementById('out');
-function calc(){try{let s=expr.value;if(!/^[0-9+\-*/().,^\sπ√a-zA-Z]+$/.test(s))throw Error('Недопустимі символи');s=s.replaceAll(',', '.').replaceAll('π','Math.PI').replaceAll('^','**').replace(/√\(/g,'Math.sqrt(').replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(').replace(/ln\(/g,'Math.log(').replace(/log\(/g,'Math.log10(');let r=Function('"use strict";return ('+s+')')();if(!Number.isFinite(r))throw Error('Неможливо обчислити');out.className='result';out.textContent=Number(r.toPrecision(12));}catch(e){out.className='result err';out.textContent=e.message||'Помилка';}}
-const btns=document.getElementById('btns');buttons.forEach(b=>{let x=document.createElement('button');x.textContent=b;x.onclick=()=>{expr.value+=b;expr.focus()};btns.appendChild(x)});
-let back=document.createElement('button');back.textContent='Видалити';back.className='back';back.onclick=()=>expr.value=expr.value.slice(0,-1);btns.appendChild(back);
-let eq=document.createElement('button');eq.textContent='Обчислити';eq.className='equal';eq.onclick=calc;btns.appendChild(eq);
-expr.addEventListener('keydown',e=>{if(e.key==='Enter')calc()});
-const cat=document.getElementById('cat'), from=document.getElementById('from'), to=document.getElementById('to'), val=document.getElementById('val'), conv=document.getElementById('conv');
-Object.keys(units).forEach(k=>cat.add(new Option(k,k)));
-function fill(){from.innerHTML='';to.innerHTML='';Object.keys(units[cat.value]).forEach(u=>{from.add(new Option(u,u));to.add(new Option(u,u))});to.selectedIndex=1;convert()}
-function convert(){let n=Number(val.value), f=units[cat.value][from.value], t=units[cat.value][to.value];conv.textContent=Number.isFinite(n)?new Intl.NumberFormat('uk-UA',{maximumFractionDigits:10}).format(n*f/t)+' '+to.value:'—'}
-cat.onchange=fill;from.onchange=convert;to.onchange=convert;val.oninput=convert;fill();
-const fbox=document.getElementById('formulas');formulas.forEach(([name,formula,hint])=>{let d=document.createElement('div');d.className='formula';d.innerHTML='<div><b>'+name+'</b><small>'+hint+'</small></div><code>'+formula+'</code>';d.onclick=()=>{expr.value=formula.replaceAll('×','*').replace('²','^2');window.scrollTo(0,0)};fbox.appendChild(d)});
+function add(s){expr.value+=s;expr.focus();}
+function delChar(){expr.value=expr.value.slice(0,-1);expr.focus();out.textContent='Результат з’явиться тут';out.className='result';}
+function setExpr(s){expr.value=s;expr.focus();}
+function calc(){
+ try{
+  let s=expr.value.trim();
+  if(!s){out.textContent='Введіть приклад';return;}
+  if(!/^[0-9+\-*/().,^π√a-zA-Z\s]+$/.test(s)){out.innerHTML='<span class="error">Недопустимі символи</span>';return;}
+  s=s.replaceAll('π','Math.PI').replaceAll('^','**').replaceAll('√(','Math.sqrt(').replaceAll('sin(','Math.sin(').replaceAll('cos(','Math.cos(').replaceAll('tan(','Math.tan(').replaceAll('ln(','Math.log(').replaceAll('log(','Math.log10(');
+  const res=Function('"use strict"; return ('+s+')')();
+  if(!Number.isFinite(res)) throw new Error();
+  out.textContent=Number(res.toPrecision(12)); out.className='result';
+ }catch(e){out.innerHTML='<span class="error">Помилка обчислення</span>';}
+}
+const data={'Довжина':{mm:.001,cm:.01,m:1,km:1000,inch:.0254,ft:.3048},'Маса':{mg:.000001,g:.001,kg:1,t:1000,lb:.45359237},'Тиск':{Pa:1,kPa:1000,MPa:1000000,bar:100000,atm:101325,psi:6894.757},'Енергія':{J:1,kJ:1000,MJ:1000000,Wh:3600,kWh:3600000},'Потужність':{W:1,kW:1000,MW:1000000,hp:745.699872}};
+const cat=document.getElementById('cat'),from=document.getElementById('from'),to=document.getElementById('to'),val=document.getElementById('val'),conv=document.getElementById('conv');
+function init(){Object.keys(data).forEach(k=>cat.add(new Option(k,k)));changeCat();}
+function changeCat(){from.innerHTML='';to.innerHTML='';Object.keys(data[cat.value]).forEach(u=>{from.add(new Option(u,u));to.add(new Option(u,u));});const keys=Object.keys(data[cat.value]);from.value=keys[0];to.value=keys[1]||keys[0];convert();}
+function convert(){const n=Number(val.value);if(!Number.isFinite(n)){conv.textContent='—';return;}const r=n*data[cat.value][from.value]/data[cat.value][to.value];conv.textContent=new Intl.NumberFormat('uk-UA',{maximumFractionDigits:10}).format(r)+' '+to.value;}
+init();
 </script>
 </body>
 </html>
